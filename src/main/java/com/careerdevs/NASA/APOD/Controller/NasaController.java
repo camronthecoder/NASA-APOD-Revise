@@ -1,46 +1,34 @@
 package com.careerdevs.NASA.APOD.Controller;
-
-
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RestController;
-//import org.springframework.web.client.RestTemplate;
-////https://apod.nasa.gov/apod/ap220802.html
-//@RestController
-//@RequestMapping("/nasa")
-
-//public class NasaController {
-
-//    private String myNasaKey = "B56HiyvCcnfXdtnIilPgqsJBgKw7VIaJKLzxHvNG";
-//    private String nasaApodEndpoint = "https://api.nasa.gov/planetary/apod?api_key=" + myNasaKey;
-//
-
-//    }
-//    @GetMapping("/")
-//    private String routeRoute (){
-//        return "Your requested root";
-//    }
-//
-//    }
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-    @RestController
+//added date route
+@RestController
     public class NasaController {
         private String myNasaKey = "B56HiyvCcnfXdtnIilPgqsJBgKw7VIaJKLzxHvNG";
         private String nasaApodEndpoint = "https://api.nasa.gov/planetary/apod?api_key=" + myNasaKey;
+        private String date = "2014-10-01";
+    private String dateEndPoint = nasaApodEndpoint + "&date=" + date;
 
-        @GetMapping("/")
-        private String routeRoute (){
+
+    @GetMapping("/")
+        private String routeRoute() {
             return "Your requested root";
         }
 
-            @GetMapping("/apod")
-    public Object apodRoute (RestTemplate restTemplate) {
+        @GetMapping("/apod")
+        public Object apodRoute(RestTemplate restTemplate) {
             return restTemplate.getForObject(nasaApodEndpoint, Object.class);
-            }}
+        }
+    @GetMapping("/date")
+    public Object dateRoute(RestTemplate restTemplate) {
+        return restTemplate.getForObject(dateEndPoint, Object.class);
+    }
+
+//    public String getDateEndPoint() {
+//        return restTemplate.getForObject(dateEndPoint, Object.class);
 //
-
-
+//        return dateEndPoint;
+//    }
+//cant figure out date
+}
