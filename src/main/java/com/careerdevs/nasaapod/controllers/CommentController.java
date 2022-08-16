@@ -1,6 +1,6 @@
 package com.careerdevs.nasaapod.controllers;
 
-import com.careerdevs.nasaapod.models.AlbumModel;
+import com.careerdevs.nasaapod.models.CommentModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,43 +10,41 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
-@RequestMapping("/api/albums")
-public class AlbumController {
+@RequestMapping("/api/comments")
+public class CommentController {
 
-    private final String albumsEndPoint = "https://jsonplaceholder.typicode.com/albums";
+    private final String commentEndPoint = "https://jsonplaceholder.typicode.com/comments";
 
     @GetMapping("/all")
-    public ResponseEntity<?> getAllAlbums (RestTemplate restTemplate) {
+    public ResponseEntity<?> getAllComments (RestTemplate restTemplate) {
+        CommentModel[] response = restTemplate.getForObject(commentEndPoint, CommentModel[].class);
         try {
-            AlbumModel[] response = restTemplate.getForObject(albumsEndPoint, AlbumModel[].class);
 
             for (int i = 0; i < response.length; i++) {
-                AlbumModel user = response[i];
-                System.out.println(user.getTitle());
+                CommentModel user = response[i];
+                System.out.println(user.getId());
             }
 
             return ResponseEntity.ok(response);
-
         } catch (Exception e) {
             System.out.println(e.getClass());
             System.out.println(e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
-
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<?> getAlbumById (RestTemplate restTemplate, @PathVariable String id) {
+    public ResponseEntity<?> getCommentById (RestTemplate restTemplate, @PathVariable String id) {
         try {
 
             // throws NumberFormatException if id is not an int
             Integer.parseInt(id);
 
-            System.out.println("Getting album with ID " + id);
+            System.out.println("Getting comment with ID " + id);
 
-            String url = albumsEndPoint + "/" + id;
+            String url = commentEndPoint + "/" + id;
 
-            AlbumModel response = restTemplate.getForObject(url, AlbumModel.class);
+            CommentModel response = restTemplate.getForObject(url, CommentModel.class);
 
             return ResponseEntity.ok(response);
 
@@ -54,7 +52,7 @@ public class AlbumController {
             return ResponseEntity.status(400).body("ID " + id + ", is not a valid ID. Must be a whole number");
 
         } catch (HttpClientErrorException.NotFound e) {
-            return ResponseEntity.status(404).body("Album Not Found With ID: " + id);
+            return ResponseEntity.status(404).body("Comment Not Found With ID: " + id);
 
         } catch (Exception e) {
             System.out.println(e.getClass());
