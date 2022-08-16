@@ -1,10 +1,10 @@
-package com.careerdevs.NASA.APOD;
+package com.careerdevs.nasaapod;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class NasaApodApplicationTests {
+class NasaControllerTests {
 
 	@Test
 	void contextLoads() {
